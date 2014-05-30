@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[C.J. Bordeleau - Developer]]></title>
-  <link href="http://cj.gg/atom.xml" rel="self"/>
-  <link href="http://cj.gg/"/>
-  <updated>2014-05-29T21:47:00-04:00</updated>
-  <id>http://cj.gg/</id>
+  <link href="http://cjjuice.github.io/atom.xml" rel="self"/>
+  <link href="http://cjjuice.github.io/"/>
+  <updated>2014-05-29T21:55:33-04:00</updated>
+  <id>http://cjjuice.github.io/</id>
   <author>
     <name><![CDATA[C.J. Bordeleau]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Leveraging Rails Partials to Render Content via AJAX]]></title>
-    <link href="http://cj.gg/blog/2014/05/29/leveraging-rails-partials-to-render-content-via-ajax/"/>
+    <link href="http://cjjuice.github.io/blog/2014/05/29/leveraging-rails-partials-to-render-content-via-ajax/"/>
     <updated>2014-05-29T19:24:34-04:00</updated>
-    <id>http://cj.gg/blog/2014/05/29/leveraging-rails-partials-to-render-content-via-ajax</id>
+    <id>http://cjjuice.github.io/blog/2014/05/29/leveraging-rails-partials-to-render-content-via-ajax</id>
     <content type="html"><![CDATA[<p>Adding dynamic content to a page via AJAX can easily become a code intensive
 experence. You may have seen it go down a little like this:</p>
 
