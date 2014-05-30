@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
+    <url>
+        <loc>
+            http://cjjuice.github.io/blog/2014/05/29/leveraging-rails-partials-to-render-content-via-ajax/
+        </loc>
+        <lastmod>2014-05-29T21:46:54-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cjjuice.github.io/blog/archives/</loc>
+        <lastmod>2014-05-29T21:46:54-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cjjuice.github.io/</loc>
+        <lastmod>2014-05-29T22:15:48-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cjjuice.github.io/robots.txt</loc>
+        <lastmod>2014-05-22T23:40:27-04:00</lastmod>
+    </url>
+</urlset>

@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Leveraging Rails Partials to Render Content via AJAX - C.J. Bordeleau - Developer</title>
+  <meta name="author" content="C.J. Bordeleau">
+
+  
+  <meta name="description" content="Adding dynamic content to a page via AJAX can easily become a code intensive
+experence. You may have seen it go down a little like this: 1
+2
+3
+4
+5
+6 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cjjuice.github.io/blog/2014/05/29/leveraging-rails-partials-to-render-content-via-ajax">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="C.J. Bordeleau - Developer" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">C.J. Bordeleau - Developer</a></h1>
+  
+    <h2>The Personal Site of C.J. Bordeleau</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cjjuice.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Leveraging Rails Partials to Render Content via AJAX</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-29T19:24:34-04:00" pubdate data-updated="true">May 29<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Adding dynamic content to a page via AJAX can easily become a code intensive
+experence. You may have seen it go down a little like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="c1"># app/assets/javascripts/weather.js.coffee</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nv">eventHandler: </span><span class="nf">(event) -&gt;</span>
+</span><span class='line'>    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># Request JSON from rails</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span>
+</span><span class='line'>      <span class="nv">url: </span><span class="s">&#39;weather/fetch&#39;</span>
+</span><span class='line'>      <span class="nv">type: </span><span class="s">&#39;GET&#39;</span>
+</span><span class='line'>      <span class="nv">dataType: </span><span class="s">&#39;JSON&#39;</span>
+</span><span class='line'>      <span class="nv">success: </span><span class="nf">(data) -&gt;</span>
+</span><span class='line'>        <span class="nb">window</span><span class="p">.</span><span class="nv">currentWeather = </span><span class="nx">data</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1"># Construct HTML string for new content</span>
+</span><span class='line'>        <span class="nx">htmlString</span> <span class="o">+=</span> <span class="s">&quot;&lt;div id=&quot;</span><span class="nx">temp</span><span class="s">&quot;&gt; </span><span class="si">#{</span><span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">temp_f</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;F&quot;</span><span class="si">}</span><span class="s"> &lt;/div&gt;&quot;</span>
+</span><span class='line'>        <span class="nx">htmlString</span> <span class="o">+=</span> <span class="s">&quot;&lt;div id=&quot;</span><span class="nx">weather</span><span class="o">-</span><span class="nx">icon</span><span class="s">&quot;&gt;&quot;</span>
+</span><span class='line'>        <span class="nx">htmlString</span> <span class="o">+=</span> <span class="s">&quot;&lt;div class=&#39;&quot;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">icon</span> <span class="o">+</span> <span class="s">&quot;-icon&#39;&gt;&lt;/div&gt;&quot;</span>
+</span><span class='line'>        <span class="nx">htmlString</span> <span class="o">+=</span> <span class="s">&quot;&lt;/div&gt;&quot;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1"># Insert new content into DOM </span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s">&quot;</span><span class="err">#</span><span class="s">weather-container&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">htmlString</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can see that even a simple bit of content can quickly start to
+resemble the flying spagettii monster when attempting to construct it&rsquo;s HTML in this way.</p>
+
+<p>You: Hey Rails?! I include your dumb ass for a reason, aren&rsquo;t you suppose to
+take care of this shit for me???</p>
+
+<p>Rails: I thought you&rsquo;d never ask.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/routes.rb</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">get</span> <span class="s1">&#39;weather/fetch&#39;</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="s1">&#39;api#fetch&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/controllers/weather_controller.rb</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">fetch</span>
+</span><span class='line'>  <span class="vi">@user_location</span> <span class="o">||=</span> <span class="no">Location</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">remote_ip</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="ss">WeatherUnderground</span><span class="p">:</span><span class="ss">:API</span><span class="o">.</span><span class="n">current_conditions</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@user_location</span><span class="o">.</span><span class="n">latitude</span><span class="si">}</span><span class="s2">,</span><span class="si">#{</span><span class="vi">@user_location</span><span class="o">.</span><span class="n">longitude</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">render</span> <span class="ss">partial</span><span class="p">:</span> <span class="s2">&quot;partials/weather&quot;</span><span class="p">,</span> <span class="ss">locals</span><span class="p">:</span> <span class="p">{</span><span class="n">weather_data</span><span class="p">:</span> <span class="n">data</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="c">// app/views/partials/_weather.haml</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">#temp</span>
+</span><span class='line'>  <span class="p">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">data</span><span class="o">[</span><span class="s2">&quot;temp_f&quot;</span><span class="o">].</span><span class="n">round</span><span class="si">}</span><span class="s2">F&quot;</span>
+</span><span class='line'><span class="nc">.icon</span><span class="p">{</span><span class="ss">class</span><span class="p">:</span> <span class="n">data</span><span class="o">[</span><span class="s2">&quot;icon&quot;</span><span class="o">]</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="c1"># app/assets/javascripts/weather.js.coffee</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nv">eventHandler: </span><span class="nf">(event) -&gt;</span>
+</span><span class='line'>    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># Request HTML from rails partial we made</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span>
+</span><span class='line'>      <span class="nv">url: </span><span class="s">&#39;weather/fetch&#39;</span>
+</span><span class='line'>      <span class="nv">type: </span><span class="s">&#39;GET&#39;</span>
+</span><span class='line'>      <span class="nv">dataType: </span><span class="s">&#39;HTML&#39;</span>
+</span><span class='line'>      <span class="nv">success: </span><span class="nf">(data) -&gt;</span>
+</span><span class='line'>        <span class="c1"># Insert new content into DOM </span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s">&quot;</span><span class="err">#</span><span class="s">weather-container&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">responseText</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I think this approach sets you up for creating much cleaner and
+more maintainable code that will last for the long haul. Just add some slick
+animations for a nice ease in effect.</p>
+
+<p>Let me know in the comments your approach!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">C.J. Bordeleau</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-29T19:24:34-04:00" pubdate data-updated="true">May 29<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://cjjuice.github.io/blog/2014/05/29/leveraging-rails-partials-to-render-content-via-ajax/" data-via="cbordeleau" data-counturl="http://cjjuice.github.io/blog/2014/05/29/leveraging-rails-partials-to-render-content-via-ajax/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/05/29/leveraging-rails-partials-to-render-content-via-ajax/">Leveraging Rails Partials to Render Content via AJAX</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/cjjuice">@cjjuice</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'cjjuice',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - C.J. Bordeleau -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
