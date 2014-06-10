@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Basics | Code 1337]]></title>
   <link href="http://cjjuice.github.io/blog/categories/basics/atom.xml" rel="self"/>
   <link href="http://cjjuice.github.io/"/>
-  <updated>2014-06-10T08:32:06-04:00</updated>
+  <updated>2014-06-10T08:34:57-04:00</updated>
   <id>http://cjjuice.github.io/</id>
   <author>
     <name><![CDATA[C.J. Bordeleau]]></name>
@@ -30,9 +30,9 @@ certainty the modern computer. Before you can begin to understand the
 art of programming, you must first understand the medium that is the
 computer.</p>
 
-<h1>Parts of a computer</h1>
+<h2>Parts of a computer</h2>
 
-<h2>CPU (Central Processing Unit)</h2>
+<h3>CPU (Central Processing Unit)</h3>
 
 <p>The CPU is often referred to as the &ldquo;brains&rdquo; behind the computer. It is
 here where the code you write is transformed into &ldquo;machine code&rdquo; or the
@@ -41,14 +41,14 @@ multiple cores which are able to process requests concurrently (or at the
 same time). A CPU&rsquo;s clock rate is the rate which it can perform
 operations in a specified amount of time.</p>
 
-<h2>RAM (Random Access Memory)</h2>
+<h3>RAM (Random Access Memory)</h3>
 
 <p>RAM or random access memory is one of two types of storage modern
 computers have. RAM is special because it is able to read and write at a
 faster speed then your hard drive. Making it crucial for your CPU to run
 efficiently. RAM typically ranges currently in variations of 4GB &ndash; 16GB.</p>
 
-<h2>Hard Drive</h2>
+<h3>Hard Drive</h3>
 
 <p>The hard drive is the main method of persistent storage on a computer.
 It is where, your programs, your code and all your saved documents are
@@ -59,6 +59,8 @@ storage.</p>
 
 <p>If any one of these components fills up or gets sent more work than it
 can handle, the computer will grind to halt and/or crash.</p>
+
+<h4>Next Time</h4>
 
 <p>Next time we will dive into the basics and history of the terminal,
  or how programmers most often interact with their computers.</p>
